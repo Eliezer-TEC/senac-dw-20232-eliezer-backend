@@ -1,32 +1,43 @@
-package model;
+package senacdw20232eliezerbackend.exemplodw.model;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "produtos")
+@NoArgsConstructor
 public class Produto {
-	private int id;
+	@Id
+	private Integer id;
 	private String nome;
 	private String fabricante;
-	private double valor;
-	private double peso;
+	private Double valor;
+	private Double peso;
 	private LocalDate dataCadastro;
-
-	public Produto(String nome, String fabricante, double valor, double peso, LocalDate dataCadastro) {
+	
+	public Produto(Integer id, String nome, String fabricante, Double valor, Double peso, LocalDate dataCadastro) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.fabricante = fabricante;
 		this.valor = valor;
 		this.peso = peso;
 		this.dataCadastro = dataCadastro;
 	}
-
+	
 	public Produto() {
+		
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -46,25 +57,20 @@ public class Produto {
 		this.fabricante = fabricante;
 	}
 
-	public double getValor() {
+	public Double getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(Double valor) {
 		this.valor = valor;
 	}
 
-	public double getPeso() {
+	public Double getPeso() {
 		return peso;
 	}
 
-	public void setPeso(double peso) {
+	public void setPeso(Double peso) {
 		this.peso = peso;
-	}
-
-	@Override
-	public String toString() {
-		return "Produto [id=" + id + ", nome=" + nome + ", fabricante=" + fabricante + "]";
 	}
 
 	public LocalDate getDataCadastro() {
