@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import senacdw20232eliezerbackend.exemplodw.exception.CampoInvalidoException;
 import senacdw20232eliezerbackend.exemplodw.exception.IdInexistenteExcpetion;
+import senacdw20232eliezerbackend.exemplodw.model.Fabricante;
 import senacdw20232eliezerbackend.exemplodw.model.Produto;
 import senacdw20232eliezerbackend.exemplodw.model.repository.ProdutoRepository;
 
@@ -34,20 +35,19 @@ public class ProdutoService {
 	}
 
 	private void validarCamposObrigatorios(Produto produto) throws CampoInvalidoException {
-
 		String mensagemValidacao = "";
 		mensagemValidacao += validarCampoString(produto.getNome(), "nome");
-		mensagemValidacao += validarCampoString(produto.getFabricante(), "fabricante");
+		//mensagemValidacao += validarCampoString(produto.getFabricante(), "fabricante");
 		mensagemValidacao += validarCampoDouble(produto.getValor(), "valor");
 		mensagemValidacao += validarCampoDouble(produto.getPeso(), "peso");
 
-		if (!mensagemValidacao.isEmpty()) {
+		if(!mensagemValidacao.isEmpty()) {
 			throw new CampoInvalidoException(mensagemValidacao);
 		}
 	}
 
-	private String validarCampoString(String valorCampo, String nomeCampo) {
-		if (valorCampo == null || valorCampo.trim().isEmpty()) {
+	private String validarCampoString(String string, String nomeCampo) {
+		if (string == null || string.trim().isEmpty()) {
 			return "Informe o " + nomeCampo + " \n";
 		}
 		return "";
