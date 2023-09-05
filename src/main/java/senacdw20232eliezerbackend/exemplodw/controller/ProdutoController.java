@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import senacdw20232eliezerbackend.exemplodw.exception.CampoInvalidoException;
 import senacdw20232eliezerbackend.exemplodw.exception.IdInexistenteExcpetion;
 import senacdw20232eliezerbackend.exemplodw.model.Produto;
+import senacdw20232eliezerbackend.exemplodw.model.seletor.ProdutoSeletor;
 import senacdw20232eliezerbackend.exemplodw.service.ProdutoService;
 
 @RestController
@@ -42,6 +43,10 @@ public class ProdutoController {
 		
 	}
 	
+	@PostMapping("/filtro")
+	public List<Produto> listarComSeletor(@RequestBody ProdutoSeletor seletor){
+		return produtoService.listarComSeletor(seletor);
+	}
 	@PostMapping
 	public Produto salvar(@RequestBody Produto novoProduto) 
 			throws CampoInvalidoException {

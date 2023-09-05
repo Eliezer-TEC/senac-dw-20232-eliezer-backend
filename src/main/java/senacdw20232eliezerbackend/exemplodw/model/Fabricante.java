@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "fabricantes")
 public class Fabricante {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -22,7 +21,7 @@ public class Fabricante {
 	private String cnpj;
 	
 	@JsonBackReference
-    @OneToMany(mappedBy = "fabricante")
+    @OneToMany(mappedBy = "fabricanteDoProduto")
     private List<Produto> produtos;
 
     public Fabricante() {
@@ -33,8 +32,8 @@ public class Fabricante {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.produtos = produtos;
 		this.cnpj = cnpj;
+		this.produtos = produtos;
 	}
 
 
@@ -53,14 +52,6 @@ public class Fabricante {
 	}
 
 
-	public String getCnpj() {
-		return cnpj;
-	}
-
-	public void setCnpj(String cnpj) {
-		this.cnpj = cnpj;
-	}
-
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
@@ -74,5 +65,14 @@ public class Fabricante {
 	public void setProdutos(List<Produto> produtos) {
 		this.produtos = produtos;
 	}
+
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
 	
+
 }

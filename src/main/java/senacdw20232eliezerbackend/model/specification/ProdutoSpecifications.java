@@ -1,4 +1,4 @@
-package senacdw20232eliezerbackend.exemplodw.model.specification;
+package senacdw20232eliezerbackend.model.specification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +27,18 @@ public class ProdutoSpecifications {
             List<Predicate> predicates = new ArrayList<>();
 
             if (seletor.getNome() != null) {
+            	
                 predicates.add(cb.like(cb.lower(root.get("nome")), "%" 
                 		+ seletor.getNome().toLowerCase() + "%"));
             }
             
             
             if (seletor.getFabricante() != null) {
-            	String jpql="SELECT p FROM produtos join on fabricante ";
+            	//WHERE p.fabricante like '%Rider%'
+            	//WHERE f.nome like '%Rider%'
+            	//JPQL = Java Persistence Query Language
+                predicates.add(cb.like(root.join("fabricanteDoProduto").get("nome"), 
+                						"%" + seletor.getFabricante() + "%"));
             }
             
             if(seletor.getPesoMinimo() != null && seletor.getPesoMaximo() != null) {
@@ -44,18 +49,12 @@ public class ProdutoSpecifications {
             	//WHERE peso >= min
             	predicates.add(cb.greaterThanOrEqualTo(root.get("peso"), seletor.getPesoMinimo()));
             } else if(seletor.getPesoMaximo() != null) {
-				// WHERE peso <= max
-				predicates.add(cb.lessThanOrEqualTo(root.get("peso"), seletor.getPesoMaximo()));
+            	//WHERE peso <= max
+            	predicates.add(cb.lessThanOrEqualTo(root.get("peso"), seletor.getPesoMaximo()));
             }
             
-            
-            
-            // TODO Adicionar outros filtros aqui
-//            private Double valorMinimo;
-//            private Double valorMaximo;
-//            private LocalDate dataCadastroInicial;
-//            private LocalDate dataCadastroFinal;
-            
+           
+
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }

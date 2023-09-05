@@ -3,6 +3,7 @@ package senacdw20232eliezerbackend.exemplodw.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,8 @@ import senacdw20232eliezerbackend.exemplodw.exception.IdInexistenteExcpetion;
 import senacdw20232eliezerbackend.exemplodw.model.Fabricante;
 import senacdw20232eliezerbackend.exemplodw.model.Produto;
 import senacdw20232eliezerbackend.exemplodw.model.repository.ProdutoRepository;
+import senacdw20232eliezerbackend.exemplodw.model.seletor.ProdutoSeletor;
+import senacdw20232eliezerbackend.exemplodw.model.specification.ProdutoSpecifications;
 
 @Service
 public class ProdutoService {
@@ -22,6 +25,12 @@ public class ProdutoService {
 	public List<Produto> listarTodos() {
 		// TODO Auto-generated method stub
 		return produtoRepository.findAll();
+	}
+	
+	public List<Produto> listarComSeletor(ProdutoSeletor seletor) {
+		//https://www.baeldung.com/spring-data-jpa-query-by-example
+		Specification<Produto> specification = ProdutoSpecifications.comFiltros(seletor);
+		return produtoRepository.findAll(specification);
 	}
 
 	public Produto inserir(Produto novoProduto) throws CampoInvalidoException {
@@ -77,5 +86,7 @@ public class ProdutoService {
 		return produtoRepository.existsById(id);
 
 	}
+
+	
 
 }
