@@ -3,7 +3,6 @@ package senacdw20232eliezerbackend.exemplodw.model;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,65 +15,91 @@ import jakarta.persistence.Table;
 @Table(name = "fabricantes")
 public class Fabricante {
 
-		@Id
-		@GeneratedValue(strategy = GenerationType.IDENTITY)
-		private Integer id;
-		private String nome;
-		@JsonIgnore
-		private String cnpj;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	private String nome;
+	private String cnpj;
+	private String cidade;
+	private String cep;
+	private String uf;
+
+	@JsonBackReference
+	@OneToMany(mappedBy = "fabricanteDoProduto")
+	private List<Produto> produtos;
+
+	
+	public Fabricante(Integer id, String nome, String cnpj, String cidade, String cep, String uf,
+			List<Produto> produtos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.cnpj = cnpj;
+		this.cidade = cidade;
+		this.cep = cep;
+		this.uf = uf;
+		this.produtos = produtos;
+	}
+	
+	public Fabricante() {
 		
-		@JsonBackReference
-	    @OneToMany(mappedBy = "fabricanteDoProduto")
-	    private List<Produto> produtos;
-
-	    public Fabricante() {
-			super();
-		}
-
-		public Fabricante(Integer id, String nome, String cnpj, List<Produto> produtos) {
-			super();
-			this.id = id;
-			this.nome = nome;
-			this.cnpj = cnpj;
-			this.produtos = produtos;
-		}
+	}
 
 
-		public Integer getId() {
-			return id;
-		}
+	public String getCidade() {
+		return cidade;
+	}
 
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
 
-		public void setId(Integer id) {
-			this.id = id;
-		}
+	public String getCep() {
+		return cep;
+	}
 
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
 
-		public String getNome() {
-			return nome;
-		}
+	public String getUf() {
+		return uf;
+	}
 
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
 
-		public void setNome(String nome) {
-			this.nome = nome;
-		}
+	public Integer getId() {
+		return id;
+	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-		public List<Produto> getProdutos() {
-			return produtos;
-		}
+	public String getNome() {
+		return nome;
+	}
 
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-		public void setProdutos(List<Produto> produtos) {
-			this.produtos = produtos;
-		}
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
 
-		public String getCnpj() {
-			return cnpj;
-		}
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
 
-		public void setCnpj(String cnpj) {
-			this.cnpj = cnpj;
-		}
+	public String getCnpj() {
+		return cnpj;
+	}
+
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
+	}
 
 }
