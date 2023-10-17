@@ -1,5 +1,6 @@
 package senacdw20232eliezerbackend.exemplodw.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,19 @@ import senacdw20232eliezerbackend.exemplodw.service.ProdutoService;
 @CrossOrigin(origins = {"http://localhost:4200","http://localhost:5500"}, maxAge = 3600)
 public class ProdutoController {
 	
-	@Autowired
+	@Autowired //injeção de dependência (tomcat vai instanciar o objeto produtoService sob demanda)
 	private ProdutoService produtoService;
-// produtoService anteriormente esse era o BO
 	
-	//METODO GET: UTILIZADO EM CONSULTAS
-	//RETORNA TODOS
-	@GetMapping(path = "/todos")
+	/**
+	 * Método GET: geralmente utilizado em consultas
+	 * Parâmetros podem ser enviados via URL
+	 * 
+	 * @return a lista de todos os produtos
+	 */
+	@GetMapping
 	public List<Produto> listarTodos() {
 		List<Produto> produtos = produtoService.listarTodos();
 		return produtos;
-		
 	}
 	
 	@PostMapping("/filtro")
@@ -42,46 +45,56 @@ public class ProdutoController {
 		return produtoService.listarComSeletor(seletor);
 	}
 	
-	//METODO GET: UTILIZADO EM CONSULTAS
-	//RETORNA UM PRODUTOP ESPECIFICO, DADO O SEU ID
+	/**
+	 * Método GET
+	 * Parâmetro id foi enviado via URL
+	 * @return um produto específico, dado o seu id
+	 */
 	@GetMapping("/{id}")
-	public Produto pesquisarPorId (@PathVariable Integer id) {
+	public Produto pesquisarPorId(@PathVariable Integer id){
 		return produtoService.consultarPorId(id.longValue());
-		
 	}
 	
-	//METODO POST: INSERIR NOVOS REGISTROS
-	//parametros são enviados no corpo da requisição HTTP
-	//para isso utilizamos a anoção @RequestBody
-	//retorna o produto salvo com o id preenchido
+	/**
+	 * Método POST: geralmente utilizado para inserir novos registros
+	 * Parâmetros são enviados no corpo da requisição HTTP, 
+	 * para isso usamos a anotação @RequestBody
+	 * 
+	 * @return o produto salvo, com id preenchido
+	 * @throws CampoInvalidoException 
+	 */
 	@PostMapping
-	public Produto salvar(@RequestBody Produto novoProduto) throws CampoInvalidoException{
+	public Produto salvar(@RequestBody Produto novoProduto) 
+			throws CampoInvalidoException {
+		
+		
 		return produtoService.inserir(novoProduto);
 	}
 	
-	//METODO POST: ATUALIZAR REGISTROS
-	//parametros são enviados no corpo da requisição HTTP
-	//para isso utilizamos a anoção @RequestBody
-	//retorna um booleano indicando seo produto foi atualizado
+	/**
+	 * Método PUT: utilizado para atualizar registros. 
+	 * Muitas vezes é usado o POST em seu lugar
+	 * Parâmetros são enviados no corpo da requisição HTTP, 
+	 * para isso usamos a anotação @RequestBody
+	 * 
+	 * @return um booleano indicando se o produto em questão foi atualizado
+	 * @throws CampoInvalidoException 
+	 */
 	@PutMapping()
-	public boolean atualizar(@RequestBody Produto produtoParaAtualizar) throws CampoInvalidoException{
+	public boolean atualizar(@RequestBody Produto produtoParaAtualizar) 
+			throws CampoInvalidoException {
 		return produtoService.atualizar(produtoParaAtualizar) != null;
 	}
 	
+	/**
+	 * Método DELETE
+	 * Parâmetro id foi enviado via URL
+	 */
 	@DeleteMapping("/{id}")
 	public boolean excluir(@PathVariable Integer id) {
 		return produtoService.excluir(id);
 	}
 	
-	//GET - NA URL
-	//PUT - NO CORPO(BODY)
-	//POST - NO CORPO)BODY
-	//DELETE - NA URL
 	
-	@DeleteMapping("/deletar-por-cpf/{cpf}")
-	public boolean excluirPorCpf(@PathVariable Integer cpf) {
-		return produtoService.excluir(cpf);
-	}
-	
-	
+
 }
